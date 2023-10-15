@@ -2,7 +2,7 @@
 using CartingService.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CatalogService.PresentationLayer;
+namespace CartingService.PresentationLayer;
 
 [Route("api/v1/carts")]
 [ApiController]
