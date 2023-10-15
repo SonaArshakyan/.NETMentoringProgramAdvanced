@@ -1,12 +1,12 @@
-﻿using CartingService.DAL.Entities;
+﻿using CartingService.BLL.Model;
 
 namespace CartingService.BLL.Services;
 
 public interface ICartService
 {
-    Cart GetCart(string cartId);
-    IEnumerable<Cart> GetCarts();
-    Cart AddCart(Cart cart);
-    void UpdateCart(string id, Cart cart);
+    CartModel GetCart(string cartId);
+    IEnumerable<CartModel> GetCarts();
+    CartModel AddCart(CartModel cart);
+    void UpdateCart(string id, CartModel cart);
     void DeleteCart(string cartId);
 }

@@ -1,5 +1,5 @@
-﻿using CartingService.BLL.Services;
-using CartingService.DAL.Entities;
+﻿using CartingService.BLL.Model;
+using CartingService.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogService.PresentationLayer;
@@ -16,14 +16,14 @@ public class CartsController : ControllerBase
 
     // GET: api/Carts
     [HttpGet]
-    public IEnumerable<Cart> Get()
+    public IEnumerable<CartModel> Get()
     {
         return _cartService.GetCarts();
     }
 
     // GET: api/Carts/1
     [HttpGet("{id}")]
-    public Cart Get(string id)
+    public CartModel Get(string id)
     {
         return _cartService.GetCart(id);
     }
@@ -31,14 +31,14 @@ public class CartsController : ControllerBase
     // POST: api/Carts
     [HttpPost]
     [Produces("application/json")]
-    public Cart Post([FromBody] Cart cart)
+    public CartModel Post([FromBody] CartModel cart)
     {
         return _cartService.AddCart(cart);
     }
 
     // PUT: api/Carts/1
     [HttpPut("{id}")]
-    public void Put(string id, [FromBody] Cart cart)
+    public void Put(string id, [FromBody] CartModel cart)
     {
         _cartService.UpdateCart(id, cart);
     }

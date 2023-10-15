@@ -35,6 +35,7 @@ public class CartRepository : ICartRepository
         var entity = GetCartById(id);
         entity.Price = cart.Price;
         entity.Name = cart.Name;
+        entity.Image = cart.Image;
         entity.Quantity = cart.Quantity;
         _db.Carts.Update(entity);
     }

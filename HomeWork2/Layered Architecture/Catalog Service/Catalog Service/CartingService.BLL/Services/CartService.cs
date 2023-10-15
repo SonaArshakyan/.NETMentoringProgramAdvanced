@@ -1,30 +1,39 @@
-﻿using CartingService.DAL.Entities;
+﻿using CartingService.BLL.Model;
 using CartingService.DAL.Repositories;
+using CartingService.BLL.Mapping;
+using AutoMapper;
+using CartingService.DAL.Entities;
 
 namespace CartingService.BLL.Services;
 
 public class CartService : ICartService
 {
     private readonly ICartRepository _cartRepository;
+    private readonly Mapper _mapper;
 
-    public CartService(ICartRepository cartRepository)
+    public CartService(ICartRepository cartRepository )
     {
         _cartRepository = cartRepository;
+        _mapper = MapperConfig.InitializeAutomapper();
     }
 
-    public Cart GetCart(string cartId)
+    public CartModel GetCart(string cartId)
     {
-        return _cartRepository.GetCartById(cartId);
+            var cart = _cartRepository.GetCartById(cartId);
+        return _mapper.Map<CartModel>(cart);
+
     }
 
-    public IEnumerable<Cart> GetCarts()
+    public IEnumerable<CartModel> GetCarts()
     {
-        return _cartRepository.GetCarts();
+       var cartModels = _cartRepository.GetCarts();
+        return cartModels.Select(c => _mapper.Map<CartModel>(c));
     }
 
-    public Cart AddCart(Cart cart)
+    public CartModel AddCart(CartModel cartModel)
     {
-       return  _cartRepository.AddCart(cart);
+        var cart =  _cartRepository.AddCart(_mapper.Map<Cart>(cartModel));
+        return _mapper.Map<CartModel>(cart);
     }
 
     public void DeleteCart(string cartId)
@@ -32,8 +41,9 @@ public class CartService : ICartService
         _cartRepository.DeleteCart(cartId);
     }
 
-    public void UpdateCart(string id, Cart cart)
+    public void UpdateCart(string id, CartModel cartModel)
     {
-         _cartRepository.UpdateCart(id,cart);
+        var cart = _mapper.Map<Cart>(cartModel);
+        _cartRepository.UpdateCart(id, cart);
     }
 }
