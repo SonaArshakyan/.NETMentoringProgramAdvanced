@@ -2,12 +2,12 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Interfaces.Repositories;
+namespace Catalog.Data.EFMsSql;
 
-public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
+public class EFGenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 {
     private readonly ApplicationDbContext _dbContext;
-    public GenericRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
+    public EFGenericRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
     public async Task<T> AddAsync(T entity)
     {

@@ -1,4 +1,4 @@
-﻿using Catalog_Service;
+﻿using Application.Models;
 
 namespace Application.Interfaces.Services;
 

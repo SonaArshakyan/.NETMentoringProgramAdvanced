@@ -1,4 +1,4 @@
-﻿namespace Catalog_Service.Models;
+﻿namespace Application.Models;
 public class PaginationFilter
 {
     public int PageNumber { get; set; }

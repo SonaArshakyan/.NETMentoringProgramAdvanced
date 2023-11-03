@@ -1,7 +1,7 @@
 ﻿using Application.Common;
 using Application.Interfaces.Repositories;
 using AutoMapper;
-using Catalog_Service;
+using Application.Models;
 using Domain;
 
 namespace Application.Interfaces.Services;
@@ -9,12 +9,12 @@ namespace Application.Interfaces.Services;
 public class ProductService : IProductService
 {
     private readonly IGenericRepository<Product> repository;
-    private readonly Mapper mapper;
+    private readonly IMapper mapper;
 
-    public ProductService(IGenericRepository<Product> genericRepository)
+    public ProductService(IGenericRepository<Product> genericRepository, IMapper mapper)
     {
         repository = genericRepository;
-        mapper = MapperConfig.InitializeAutomapper();
+        this.mapper = mapper;
     }
     public async Task<ProductDTO> CreateProductAsync(ProductDTO product)
     {

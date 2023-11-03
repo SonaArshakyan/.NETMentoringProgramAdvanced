@@ -1,7 +1,6 @@
-﻿using Application.Common;
+﻿using Application.Models;
 using Application.Interfaces.Repositories;
 using AutoMapper;
-using Catalog_Service;
 using Domain;
 
 namespace Application.Interfaces.Services;
@@ -9,11 +8,11 @@ namespace Application.Interfaces.Services;
 public class CategoryService : ICategoryService
 {
     private readonly IGenericRepository<Category> repository;
-    private readonly Mapper mapper;
-    public CategoryService( IGenericRepository<Category> genericRepository)
+    private readonly IMapper mapper;
+    public CategoryService( IGenericRepository<Category> genericRepository , IMapper mapper)
     {
         repository = genericRepository;
-        mapper = MapperConfig.InitializeAutomapper();
+        this.mapper = mapper;
     }
     public async Task<CategoryDTO> CreateCategoryAsync(CategoryDTO category)
     {

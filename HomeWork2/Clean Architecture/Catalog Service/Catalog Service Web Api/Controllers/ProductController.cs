@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces.Services;
+using Application.Models;
 
-namespace Catalog_Service.Controllers;
+namespace Catalog.Controllers;
 
 [Route("api/v1/products")]
 [ApiController]

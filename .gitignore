@@ -18,3 +18,5 @@
 /HomeWork2/Clean Architecture/Catalog Service/CatalogService.DAL/obj
 /HomeWork2/Clean Architecture/Catalog Service/Infrastructure/bin/Debug/net7.0
 /HomeWork2/Clean Architecture/Catalog Service/Infrastructure/obj
+/HomeWork2/Clean Architecture/Catalog Service/Catalog.Data.EFMsSql/bin/Debug/net7.0
+/HomeWork2/Clean Architecture/Catalog Service/Catalog.Data.EFMsSql/obj

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Catalog_Service;
+using Application.Models;
 using Domain;
 
 namespace Application.Common;

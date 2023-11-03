@@ -1,7 +1,7 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure;
+namespace Catalog.Data.EFMsSql;
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
