@@ -64,7 +64,7 @@ public class CategoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> DeleteCategory([FromRoute] int categoryId)
+    public async Task<IActionResult> DeleteCategory( int categoryId)
     {
         await _categoryService.DeleteCategoryAsync(categoryId);
         return NoContent();

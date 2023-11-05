@@ -59,11 +59,11 @@ public class ProductController : ControllerBase
     /// <response code="404">A Product is not found</response>
     /// <response code="500">A server fault occurred</response>
 
-    [HttpDelete("{itemId:int}")]
+    [HttpDelete("{productId:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> DeleteProduct([FromRoute] int productId)
+    public async Task<IActionResult> DeleteProduct(int productId)
     {
         await _productService.DeleteProductAsync(productId);
         return NoContent();
