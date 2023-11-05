@@ -9,12 +9,12 @@ namespace CartingService.BLL.Services;
 public class CartService : ICartService
 {
     private readonly ICartRepository _cartRepository;
-    private readonly Mapper _mapper;
+    private readonly IMapper _mapper;
 
-    public CartService(ICartRepository cartRepository)
+    public CartService(ICartRepository cartRepository, IMapper mapper)
     {
         _cartRepository = cartRepository;
-        _mapper = MapperConfig.InitializeAutomapper();
+        _mapper = mapper;
     }
 
     public CartModel GetCart(string cartId)

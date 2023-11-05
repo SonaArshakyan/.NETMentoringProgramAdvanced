@@ -1,3 +1,5 @@
+using AutoMapper;
+using CartingService.BLL.Mapping;
 using CartingService.BLL.Services;
 using CartingService.DAL.Data;
 using CartingService.DAL.Repositories;
@@ -9,6 +11,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ICartRepository, CartRepository>();
 builder.Services.AddSingleton<ICartService, CartService>();
+IMapper mapper = MapperConfig.InitializeAutomapper();
+builder.Services.AddSingleton(mapper);
 var dbColName = builder.Configuration.GetValue<string>("CollectionName");
 var dbPath = Path.Combine(Environment.CurrentDirectory, dbColName);
 builder.Services.AddSingleton(new ApplicationDBContext(dbPath));
