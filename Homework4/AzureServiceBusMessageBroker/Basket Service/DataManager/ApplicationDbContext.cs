@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Basket.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Basket.DataManager;
 
@@ -8,6 +9,6 @@ public class ApplicationDbContext : DbContext
     {
         Database.EnsureCreated();
     }
-    DbSet<Models.Basket> Basket { get; set; }
+    DbSet<BasketItem> BasketItems { get; set; }
 
 }
