@@ -10,11 +10,13 @@ public class BasketController : ControllerBase
 {
     private readonly ILogger<BasketController> _logger;
     private readonly IBasketService _basketService;
+    private readonly IBasketItemUpdater _basketItemUpdater;
 
-    public BasketController(ILogger<BasketController> logger, IBasketService basketService)
+    public BasketController(ILogger<BasketController> logger, IBasketService basketService, IBasketItemUpdater basketItemUpdater)
     {
         _logger = logger;
         _basketService = basketService;
+        _basketItemUpdater = basketItemUpdater;
     }
 
     /// <summary>
@@ -87,5 +89,18 @@ public class BasketController : ControllerBase
     {
         await _basketService.UpdateBasketItemAsync(id, item);
         return NoContent();
+    }
+
+    /// <summary>
+    /// Update Basket Items
+    /// </summary>
+
+    [HttpGet("sync")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> SyncBasketItems()
+    {
+        return Ok(await _basketItemUpdater.UpdateBasketItemsAsync());
     }
 }

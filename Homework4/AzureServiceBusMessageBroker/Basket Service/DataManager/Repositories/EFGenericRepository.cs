@@ -49,5 +49,10 @@ public class EFGenericRepository<T> : IGenericRepository<T> where T : class
     {
         return await _dbContext.Set<T>().FindAsync(id);
     }
+
+    public void AddRange(List<T> values)
+    {
+        _dbContext.Set<T>().AddRange(values);
+    }
 }
 

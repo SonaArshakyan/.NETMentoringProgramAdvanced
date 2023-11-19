@@ -1,6 +1,6 @@
 ﻿namespace AzureServiceBusMessageBroker.Services;
 
-internal interface IPublisherService
+public interface IPublisherService
 {
-
+    Task PublishMessagesAsync<T>(T message);
 }

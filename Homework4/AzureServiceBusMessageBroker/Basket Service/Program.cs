@@ -3,6 +3,8 @@ using Basket.DataManager;
 using Basket.Interfaces.Repositories;
 using Basket.DataManager.Repositories;
 using Basket.Interfaces.Services;
+using AzureServiceBusMessageBroker;
+using AzureServiceBusMessageBroker.Services;
 
 internal class Program
 {
@@ -12,9 +14,14 @@ internal class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddTransient<IListnerService, ListnerService>();
         builder.Services                  
              .AddTransient(typeof(IGenericRepository<>), typeof(EFGenericRepository<>))
-             .AddTransient<IBasketService, BasketService>();
+             .AddTransient<IBasketService, BasketService>()
+             .AddTransient<IBasketItemUpdater, BasketItemUpdater>();
+
+
+        ConfigureServiceBusClient(builder);
 
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
         builder.Services.AddDbContext<ApplicationDbContext>(
@@ -32,5 +39,15 @@ internal class Program
         app.UseAuthorization();
         app.MapControllers();
         app.Run();
+    }
+
+    private static void ConfigureServiceBusClient(WebApplicationBuilder builder)
+    {
+        string serviceBusConnectionString = builder.Configuration.GetSection("AzureServiceBus:ServiceBusConnectionString").Value;
+        string topicName = builder.Configuration.GetSection("AzureServiceBus:TopicName").Value;
+        string subscriptionName = builder.Configuration.GetSection("AzureServiceBus:SubscriptionName").Value;
+
+        builder.Services.AddSingleton<AzureServiceBusClient>(p =>
+                            new AzureServiceBusClient(serviceBusConnectionString, topicName, subscriptionName));
     }
 }

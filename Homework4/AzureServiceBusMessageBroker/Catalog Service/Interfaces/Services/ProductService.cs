@@ -6,10 +6,12 @@ namespace Catalog.Interfaces.Services;
 public class ProductService : IProductService
 {
     private readonly IGenericRepository<Product> repository;
+    private readonly IMessagePublisher _messagePublisher;
 
-    public ProductService(IGenericRepository<Product> genericRepository)
+    public ProductService(IGenericRepository<Product> genericRepository, IMessagePublisher  messagePublisher)
     {
         repository = genericRepository;
+        _messagePublisher = messagePublisher;
     }
     public async Task<Product> CreateProductAsync(Product product)
     {
@@ -36,5 +38,6 @@ public class ProductService : IProductService
     {
         product.Id = id;
         await repository.UpdateAsync(id, product);
+        await _messagePublisher.PublishProductMessageAsync(product);
     }
 }

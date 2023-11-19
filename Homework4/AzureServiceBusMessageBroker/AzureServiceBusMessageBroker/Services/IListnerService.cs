@@ -1,6 +1,6 @@
 ﻿namespace AzureServiceBusMessageBroker.Services;
 
-internal interface IListnerService
+public interface IListnerService
 {
-
+    Task ListenMessagesAsync<T>(Action<T> handleMessage, Action<string> handleError);
 }
