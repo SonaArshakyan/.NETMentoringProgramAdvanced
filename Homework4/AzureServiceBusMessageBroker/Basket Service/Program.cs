@@ -15,17 +15,16 @@ internal class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddTransient<IListnerService, ListnerService>();
-        builder.Services                  
+        builder.Services
              .AddTransient(typeof(IGenericRepository<>), typeof(EFGenericRepository<>))
-             .AddTransient<IBasketService, BasketService>()
-             .AddTransient<IBasketItemUpdater, BasketItemUpdater>();
-
-
+             .AddTransient<IBasketService, BasketService>();
         ConfigureServiceBusClient(builder);
 
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
         builder.Services.AddDbContext<ApplicationDbContext>(
         options => options.UseSqlServer(connectionString));
+
+        builder.Services.AddHostedService<BasketItemUpdater>();
 
         var app = builder.Build();
 

@@ -8,4 +8,5 @@ public interface IBasketService
     Task<List<BasketItem>> GetAllItemsAstnc();
     Task UpdateBasketItemAsync(int id, BasketItem item);
     Task DeleteBasketItemAsync(int id);
+    Task<BasketItem> GetByProductIdAsync(int id);
 }

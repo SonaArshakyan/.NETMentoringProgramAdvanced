@@ -5,40 +5,49 @@ using Basket.Models;
 
 namespace Basket.Interfaces.Services;
 
-public class BasketItemUpdater : IBasketItemUpdater
+public class BasketItemUpdater : BackgroundService
 {
     private readonly IListnerService _listnerService;
     private readonly ILogger<BasketItemUpdater> _logger;
-    private readonly IGenericRepository<BasketItem> _repository;
-    private List<BasketItem> basketItems;
+    private readonly IServiceScopeFactory _scopeFactory;
 
-    public BasketItemUpdater(IListnerService listnerService, IGenericRepository<BasketItem> genericRepository, ILogger<BasketItemUpdater> logger)
+    public BasketItemUpdater(IListnerService listnerService, 
+                             ILogger<BasketItemUpdater> logger,
+                             IServiceScopeFactory scopeFactory)
     {
+        _scopeFactory = scopeFactory;
         _listnerService = listnerService;
-        _repository = genericRepository;
         _logger = logger;
     }
-    public async Task<List<BasketItem>> UpdateBasketItemsAsync()
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try
         {
-            basketItems = await _repository.GetAllAsync();
             await _listnerService.ListenMessagesAsync<BasketItemUpdateMessage>(HandleBasketItemUpdateMessage, HandleBasketItemUpdateErrorMessage);
-            _repository.AddRange(basketItems);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
         }
-        return await Task.FromResult(basketItems);
     }
-    private void HandleBasketItemUpdateMessage(BasketItemUpdateMessage message)
+    public override async Task StopAsync(CancellationToken stoppingToken)
     {
-        var element = basketItems.Where(p => p.ProductId == message.ProductId).FirstOrDefault();
-        if (element != null)
+        await _listnerService.DisposeClientAsync();
+    }
+
+    private async void HandleBasketItemUpdateMessage(BasketItemUpdateMessage message)
+    {
+        using (var scope = _scopeFactory.CreateScope())
         {
-            element.ProductName = message.ProductName;
-            element.Price = message.Price;
+            var basketService = scope.ServiceProvider.GetRequiredService<IBasketService>();
+
+            var element = await basketService.GetByProductIdAsync(message.ProductId);
+            if (element != null)
+            {
+                element.ProductName = message.ProductName;
+                element.Price = message.Price;
+                await basketService.UpdateBasketItemAsync( element.Id , element);
+            }
         }
     }
     private void HandleBasketItemUpdateErrorMessage(string message)

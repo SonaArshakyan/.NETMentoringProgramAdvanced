@@ -8,21 +8,20 @@ public class ListnerService : IListnerService
 {
     private readonly AzureServiceBusClient _client;
 
-    public ListnerService( AzureServiceBusClient azureServiceBusClient)
+    public ListnerService(AzureServiceBusClient azureServiceBusClient)
     {
         _client = azureServiceBusClient;
     }
-    public async Task ListenMessagesAsync<T>(Action<T> handleMessage , Action<string> handleError)
+    public async Task ListenMessagesAsync<T>(Action<T> handleMessage, Action<string> handleError)
     {
         var processorOptions = new ServiceBusProcessorOptions
         {
             MaxConcurrentCalls = 1,
-            AutoCompleteMessages = false
+            AutoCompleteMessages = false // check this
         };
-         ServiceBusProcessor processor = _client.ServiceBusClient
-                                  .CreateProcessor(_client.TopicName, _client.SubscriptionName, processorOptions);
-        try
-        {
+        ServiceBusProcessor processor = _client.ServiceBusClient
+                                 .CreateProcessor(_client.TopicName, _client.SubscriptionName, processorOptions);
+
             processor.ProcessMessageAsync += async args =>
             {
                 await MessageHandler<T>(args, handleMessage);
@@ -33,19 +32,7 @@ public class ListnerService : IListnerService
                 await ErrorHandler<T>(args, handleError);
             };
 
-
             await processor.StartProcessingAsync();
-         // await processor.StopProcessingAsync();            
-
-        }
-        catch (Exception ex) 
-        {
-            throw;
-        }
-        finally {
-         // await processor.DisposeAsync();
-         // await _client.DisposeAsync();
-        }
     }
 
     async Task MessageHandler<T>(ProcessMessageEventArgs args, Action<T> handleMessage)
@@ -63,5 +50,10 @@ public class ListnerService : IListnerService
         handleError?.Invoke(args.Exception.Message);
 
         return Task.CompletedTask;
+    }
+
+    public async Task DisposeClientAsync()
+    {
+        await _client.DisposeAsync();
     }
 }

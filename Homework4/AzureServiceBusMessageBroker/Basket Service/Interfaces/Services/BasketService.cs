@@ -25,6 +25,12 @@ public class BasketService : IBasketService
         return await repository.GetAllAsync();
     }
 
+    public async Task<BasketItem> GetByProductIdAsync(int id)
+    {
+        var result = await repository.GetAllAsync();
+        return result.FirstOrDefault(c => c.ProductId == id);
+    }
+
     public async Task UpdateBasketItemAsync(int id, BasketItem item)
     {
         item.Id = id;
