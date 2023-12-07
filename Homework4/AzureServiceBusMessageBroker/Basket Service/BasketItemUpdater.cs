@@ -1,9 +1,11 @@
 ﻿using AzureServiceBusMessageBroker.MessageModels;
 using AzureServiceBusMessageBroker.Services;
 using Basket.Interfaces.Repositories;
+using Basket.Interfaces.Services;
 using Basket.Models;
+using Microsoft.Extensions.Logging;
 
-namespace Basket.Interfaces.Services;
+namespace Basket;
 
 public class BasketItemUpdater : BackgroundService
 {
@@ -11,7 +13,7 @@ public class BasketItemUpdater : BackgroundService
     private readonly ILogger<BasketItemUpdater> _logger;
     private readonly IServiceScopeFactory _scopeFactory;
 
-    public BasketItemUpdater(IListnerService listnerService, 
+    public BasketItemUpdater(IListnerService listnerService,
                              ILogger<BasketItemUpdater> logger,
                              IServiceScopeFactory scopeFactory)
     {
@@ -27,7 +29,7 @@ public class BasketItemUpdater : BackgroundService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex.Message);
+            _logger.LogError(ex,"Eroor during message listening");
         }
     }
     public override async Task StopAsync(CancellationToken stoppingToken)
@@ -46,7 +48,7 @@ public class BasketItemUpdater : BackgroundService
             {
                 element.ProductName = message.ProductName;
                 element.Price = message.Price;
-                await basketService.UpdateBasketItemAsync( element.Id , element);
+                await basketService.UpdateBasketItemAsync(element.Id, element);
             }
         }
     }
