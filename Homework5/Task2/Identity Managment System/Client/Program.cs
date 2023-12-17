@@ -16,8 +16,8 @@ class Program
         {
 
                  { "grant_type", "client_credentials" },
-                 { "client_id", "manager_client" },
-                 { "client_secret", "manager_secret" },
+                 { "client_id", "client" },
+                 { "client_secret", "client_secret" },
                  { "scope", "read create update delete" }
         });
 
