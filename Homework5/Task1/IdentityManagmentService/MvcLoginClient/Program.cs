@@ -11,14 +11,14 @@ builder.Services.AddAuthentication(config =>
                 .AddCookie("Cookie")
                 .AddOpenIdConnect("oidc" , options =>
                 {
+                    options.Authority = "https://localhost:7110/";
                     options.ClientId = "client_id_mvc";
                     options.ClientSecret = "client_secret_mvc";
                     options.SaveTokens = true;
-                    options.Authority = "https://localhost:7110/";
                     options.ResponseType = "code";
                     options.Scope.Add("userRoles.Scope");
-                    options.Scope.Add("ManagersAPI");
-                    options.Scope.Add("BuyersAPI");
+                    //options.Scope.Add("ManagersAPI");
+                    //options.Scope.Add("BuyersAPI");
                     options.Scope.Add("offline_access");
                     options.UsePkce = true;
                 });

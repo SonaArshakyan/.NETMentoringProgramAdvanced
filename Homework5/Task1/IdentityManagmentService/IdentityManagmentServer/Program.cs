@@ -24,11 +24,11 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(config =>
 builder.Services.ConfigureApplicationCookie(config =>
 {
     config.Cookie.Name = "IdentityManagmentServer.Cookie";
-    config.LoginPath = "/auth/login";
+    config.LoginPath = "/account/login";
 });
 
 builder.Services.AddIdentityServer()
-    .AddAspNetIdentity<IdentityUser>()
+     .AddAspNetIdentity<IdentityUser>()
     .AddInMemoryApiResources(Configuration.GetApis())
     .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
     .AddInMemoryClients(Configuration.GetClients())

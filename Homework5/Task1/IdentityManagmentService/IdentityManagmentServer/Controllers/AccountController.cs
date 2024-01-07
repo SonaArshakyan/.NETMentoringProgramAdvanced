@@ -3,17 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityManagmentServer.Controllers;
 
-public class AuthController : Controller
+public class AccountController : Controller
 {
     private readonly SignInManager<IdentityUser> _signInManager;
 
-    public AuthController(SignInManager<IdentityUser> signInManager)
+    public AccountController(//)
+        SignInManager<IdentityUser> signInManager)
     {
         _signInManager = signInManager;
     }
 
     [HttpGet]
-    public IActionResult Login(string? returnUrl)
+    public IActionResult Login(string returnUrl)
     {
         return View(new LoginViewModel
         {

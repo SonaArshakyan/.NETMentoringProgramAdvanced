@@ -38,12 +38,10 @@ public static class Configuration
                 new Client {
                     ClientId = "client_id_mvc",
                     ClientSecrets = { new Secret("client_secret_mvc".ToSha256()) },
-
                     AllowedGrantTypes = GrantTypes.Code,
                     RequirePkce = true,
 
                     RedirectUris = { "https://localhost:7066/signin-oidc" },
-                    PostLogoutRedirectUris = { "https://localhost:7066/Home/Index" },
 
                     AllowedScopes = {
                         "ManagersAPI",
