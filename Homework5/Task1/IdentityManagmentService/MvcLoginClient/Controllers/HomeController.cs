@@ -24,14 +24,20 @@ namespace MvcLoginClient.Controllers
         [Authorize]
         public async Task<IActionResult> Secret()
         {
-            var accessToken = await  HttpContext.GetTokenAsync("access_token");
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
             var idToken = await HttpContext.GetTokenAsync("id_token");
             var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
 
             var _idToken = new JwtSecurityTokenHandler().ReadJwtToken(idToken);
             var _accessToken = new JwtSecurityTokenHandler().ReadJwtToken(accessToken);
 
-            return View();
+            var tokenViewModel = new TokenInfoViewModel
+            {
+                AccessToken = _accessToken,
+                IdToken = _idToken,
+                RefreshToken = refreshToken
+            };
+            return View(tokenViewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
