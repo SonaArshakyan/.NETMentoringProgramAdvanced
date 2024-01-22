@@ -45,3 +45,8 @@
 /Homework4/AzureServiceBusMessageBroker/Catalog Service/bin/Debug/net7.0
 /Homework4/AzureServiceBusMessageBroker/Catalog Service/obj
 /Homework4/.vs
+/Homework5/Task1/IdentityManagmentService/.vs
+/Homework5/Task1/IdentityManagmentService/MvcLoginClient/bin
+/Homework5/Task1/IdentityManagmentService/MvcLoginClient/obj
+/Homework5/Task1/IdentityManagmentService/IdentityManagmentServer/bin
+/Homework5/Task1/IdentityManagmentService/IdentityManagmentServer/obj
